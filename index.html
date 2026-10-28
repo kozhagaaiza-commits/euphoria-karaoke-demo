@@ -102,9 +102,19 @@ conic-gradient(from 200deg at 50% -10%,transparent 0 10%,rgba(255,255,255,.22) 1
 .sw .pos-l{left:6cqw;top:30cqw;width:24cqw;height:30cqw;transform:rotate(-38deg);opacity:.8;z-index:2;filter:brightness(.85)}
 .sw .pos-r{left:70cqw;top:30cqw;width:24cqw;height:30cqw;transform:rotate(38deg);opacity:.8;z-index:2;filter:brightness(.85)}
 .sw .lbl{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-weight:700;font-size:3.2cqw;text-shadow:0 2px 8px rgba(0,0,0,.6);z-index:2}
-.sw .badge{position:absolute;left:50%;bottom:-7cqw;width:14cqw;height:14cqw;transform:translateX(-50%);z-index:4;filter:drop-shadow(0 0 10px rgba(255,79,168,.85));animation:spin 14s linear infinite}
-@keyframes spin{to{transform:translateX(-50%) rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.sw .badge{animation:none}}
+.sw .badge{position:absolute;left:50%;bottom:-7cqw;width:14cqw;height:14cqw;transform:translateX(-50%);z-index:4;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 0 10px rgba(255,79,168,.85));transition:filter .2s}
+.sw .badge:hover,.sw .badge:focus-visible{filter:drop-shadow(0 0 18px rgba(255,79,168,1))}
+.sw .badge:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:50%}
+.badge .dsc{position:absolute;inset:0}
+.badge.on .dsc{animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.badge .pp{position:absolute;left:50%;top:50%;width:42%;height:42%;transform:translate(-50%,-50%);border-radius:50%;background:#fff;display:grid;place-items:center}
+.badge .pp svg{width:55%;height:55%}
+.badge .pp .i-pause,.badge.on .pp .i-play{display:none}
+.badge.on .pp .i-pause{display:block}
+.badge:not(.on)::after{content:"";position:absolute;inset:-6%;border-radius:50%;border:2px solid rgba(255,79,168,.7);animation:ping 2.2s ease-out infinite}
+@keyframes ping{from{transform:scale(.9);opacity:.9}to{transform:scale(1.25);opacity:0}}
+@media(prefers-reduced-motion:reduce){.badge.on .dsc,.badge:not(.on)::after{animation:none}}
 .swwrap{padding-bottom:7cqw}
 .pick{text-align:center;margin:44px 0 0}
 .pick h3{font-size:26px}
@@ -193,7 +203,10 @@ section{padding:48px 0}
 </div>
 
 <section style="padding-top:24px" id="switch"><div class="wrap">
-<div class="swwrap"><div class="sw" id="sw"><div class="disc"></div><div class="ring"></div><span class="badge"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#disc"/></svg></span></div></div>
+<div class="swwrap"><div class="sw" id="sw"><div class="disc"></div><div class="ring"></div><button type="button" class="badge" id="music" aria-pressed="false" aria-label="Включить музыку" title="Включить атмосферную музыку">
+<span class="dsc"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#disc"/></svg></span>
+<span class="pp"><svg class="i-play" viewBox="0 0 24 24" fill="#12061f" aria-hidden="true"><path d="M8 5l12 7-12 7z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="#12061f" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></span>
+</button></div></div>
 <div class="pick">
 <h3 id="pName"></h3>
 <p id="pInfo"></p>
@@ -326,6 +339,80 @@ document.querySelectorAll('.zoom').forEach(function(z){
     var im=lb.querySelector('img');im.src=h.img;im.alt=h.name;lb.classList.add('on');
   });
 });
+
+/* Атмосферная музыка: синтезируется в браузере (Web Audio), без аудиофайлов */
+(function(){
+  var btn=document.getElementById('music');
+  var AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC){btn.hidden=true;return;}
+  var ctx,master,bus,timer,playing=false,nextBar=0;
+  var CH=[[45,57,60,64,67,71],[41,53,57,60,64,69],[48,55,59,62,64,67],[43,50,55,59,62,66]];
+  var SC=[69,72,74,76,79,81];
+  var hz=function(m){return 440*Math.pow(2,(m-69)/12);};
+  function setup(){
+    ctx=new AC();
+    master=ctx.createGain();master.gain.value=0;master.connect(ctx.destination);
+    var lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1400;lp.connect(master);
+    bus=ctx.createGain();bus.connect(lp);
+    var dl=ctx.createDelay(1);dl.delayTime.value=.46;
+    var fb=ctx.createGain();fb.gain.value=.38;
+    var wet=ctx.createGain();wet.gain.value=.5;
+    var dlp=ctx.createBiquadFilter();dlp.type='lowpass';dlp.frequency.value=1800;
+    bus.connect(dl);dl.connect(dlp);dlp.connect(fb);fb.connect(dl);dlp.connect(wet);wet.connect(lp);
+  }
+  function tone(type,f,t,att,dur,rel,vol,detune){
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type;o.frequency.value=f;if(detune)o.detune.value=detune;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+att);
+    g.gain.setValueAtTime(vol,t+dur);g.gain.linearRampToValueAtTime(0,t+dur+rel);
+    o.connect(g);g.connect(bus);o.start(t);o.stop(t+dur+rel+.1);
+  }
+  function pluck(f,t){
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+.02);
+    g.gain.exponentialRampToValueAtTime(.0001,t+2.2);
+    o.connect(g);g.connect(bus);o.start(t);o.stop(t+2.3);
+  }
+  var bar=0;
+  function scheduleBar(t){
+    var ch=CH[bar%CH.length];bar++;
+    ch.forEach(function(m,i){
+      tone('triangle',hz(m),t,2.2,4.6,2.4,i===0?.07:.035,-6);
+      tone('triangle',hz(m),t,2.2,4.6,2.4,i===0?.07:.035,6);
+    });
+    for(var k=0;k<10;k++){
+      if(Math.random()<.7)pluck(hz(SC[Math.floor(Math.random()*SC.length)]),t+k*.8+.2);
+    }
+  }
+  function loop(){
+    if(!playing)return;
+    while(nextBar<ctx.currentTime+3){scheduleBar(nextBar);nextBar+=8;}
+    timer=setTimeout(loop,1000);
+  }
+  function start(){
+    if(!ctx)setup();
+    ctx.resume().then(function(){
+      playing=true;
+      var t=ctx.currentTime;
+      master.gain.cancelScheduledValues(t);master.gain.setValueAtTime(master.gain.value,t);master.gain.linearRampToValueAtTime(.8,t+2);
+      nextBar=t+.1;loop();
+    });
+    set(true);
+  }
+  function stop(){
+    playing=false;clearTimeout(timer);
+    var t=ctx.currentTime;
+    master.gain.cancelScheduledValues(t);master.gain.setValueAtTime(master.gain.value,t);master.gain.linearRampToValueAtTime(0,t+1);
+    setTimeout(function(){if(!playing)ctx.suspend();},1200);
+    set(false);
+  }
+  function set(on){
+    btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);
+    var l=on?'Выключить музыку':'Включить музыку';btn.setAttribute('aria-label',l);btn.title=l;
+  }
+  btn.addEventListener('click',function(){playing?stop():start();});
+})();
 </script>
 </body>
 </html>
