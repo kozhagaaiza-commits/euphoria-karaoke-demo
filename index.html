@@ -158,6 +158,17 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 section{padding:48px 0}
 }
 .hero-img .ph,.show .ph,.sw .ph{background-size:cover;background-position:50% 60%}
+
+/* Data Rain: фон-эффект */
+:root{--dr-calm:#8a5cff;--dr-mid:#ff4fa8;--dr-hot:#ff8ad8;--dr-core:#fff0fa;--dr-vignette:.55;--dr-grain:.05;--dr-bloom-blur:10px;--dr-bloom-opacity:.7}
+@keyframes dr-fade-in{from{opacity:0}to{opacity:1}}
+.dr-root{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;animation:dr-fade-in 1.4s ease both}
+.dr-main,.dr-bloom{position:absolute;inset:0;width:100%;height:100%;display:block}
+.dr-main{opacity:.8}
+.dr-bloom{filter:blur(var(--dr-bloom-blur));opacity:var(--dr-bloom-opacity);mix-blend-mode:screen}
+.dr-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(10,3,20,var(--dr-vignette)) 100%)}
+.dr-grain{position:absolute;inset:0;opacity:var(--dr-grain);mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+main,footer,.demo{position:relative;z-index:1}
 </style>
 </head>
 <body>
@@ -414,5 +425,7 @@ document.querySelectorAll('.zoom').forEach(function(z){
   btn.addEventListener('click',function(){playing?stop():start();});
 })();
 </script>
+<script src="data-rain.js"></script>
+<script>if(window.DataRain)DataRain.mount({palette:{calm:'#8a5cff',mid:'#ff4fa8',hot:'#ff8ad8'}});</script>
 </body>
 </html>
