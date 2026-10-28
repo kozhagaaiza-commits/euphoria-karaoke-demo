@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Караоке Эйфория — Кызыл</title>
+<meta name="description" content="Почасовая аренда залов для караоке в Кызыле. Три зала до 25 человек, меню под ключ. Бронь: 8-923-388-90-90.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{--bg:#12061f;--plum:#3a1240;--card:#1b0f2b;--line:rgba(255,120,200,.35);--text:#f6eefc;--muted:#c3b0d8;--pink:#ff4fa8;--rose:#f27ab0;--violet:#8a3cff;--blue:#2a3cff;--gold:#f2d9a6}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{color:var(--text);font:16px/1.6 "Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden;
+background:
+radial-gradient(900px 260px at 50% -80px,rgba(42,60,255,.55),transparent),
+radial-gradient(700px 500px at 100% 18%,rgba(255,79,168,.18),transparent),
+radial-gradient(700px 500px at 0 55%,rgba(138,60,255,.22),transparent),
+linear-gradient(180deg,#1a0a2e 0%,#3a1240 38%,#2a0f45 70%,#12061f 100%);background-attachment:scroll}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.demo{background:rgba(0,0,0,.35);color:var(--muted);font-size:12px;text-align:center;padding:6px 16px}
+
+/* nav */
+.nav{margin:18px auto 0;max-width:1080px;padding:0 16px;position:relative;z-index:10}
+.pill{display:flex;align-items:center;gap:28px;height:64px;padding:0 20px 0 12px;border:1px solid var(--line);border-radius:999px;
+background:rgba(255,255,255,.04);backdrop-filter:blur(10px)}
+.logo{width:46px;height:46px;display:block;filter:drop-shadow(0 0 6px rgba(255,79,168,.8))}
+.logo svg,.badge svg{width:100%;height:100%}
+.links{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);flex:1}
+.links a{padding:7px 16px;border-radius:999px;border:1px solid transparent}
+.links a:hover{color:#fff}
+.links a.on{border-color:var(--line);color:#fff}
+.burger{display:none;margin-left:auto;background:none;border:0;cursor:pointer;width:36px;height:28px;position:relative}
+.burger i,.burger::before,.burger::after{content:"";position:absolute;left:0;right:0;height:3px;border-radius:2px;background:#fff}
+.burger::before{top:3px}.burger i{top:12px}.burger::after{top:21px}
+.call{font-size:14px;font-weight:600;color:#fff}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:14px;padding:6px 6px 6px 26px;border-radius:999px;border:1px solid var(--line);
+background:rgba(255,255,255,.06);color:#fff;font-weight:600;font-size:15px;cursor:pointer;backdrop-filter:blur(6px);transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px);background:rgba(255,79,168,.18)}
+.btn .c{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.btn.solid{background:linear-gradient(90deg,var(--violet),var(--pink));border-color:transparent;box-shadow:0 0 24px rgba(255,79,168,.45)}
+.btn.plain{padding:12px 30px}
+svg{display:block}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding-top:64px;padding-bottom:56px}
+.kicker{color:var(--gold);letter-spacing:.2em;font-size:12px;text-transform:uppercase;margin-bottom:10px}
+.hero h1{font-size:clamp(44px,8vw,76px);line-height:1.05;font-weight:800}
+.hero h1 .w{background:linear-gradient(180deg,#fff,#cfc2e0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .p{background:linear-gradient(90deg,#ff4fa8,#e0559a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ar{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#fff;vertical-align:middle;margin-left:10px}
+.hero p{max-width:460px;margin:20px 0 28px;color:var(--muted);font-size:15px}
+.hero-img{position:relative;justify-self:center;width:min(100%,300px);aspect-ratio:3/3.6}
+.hero-img::before{content:"";position:absolute;inset:10% -14% -6% 14%;border-radius:44px;background:linear-gradient(160deg,#ff4fa8,#b8306f);opacity:.75}
+.hero-img .art{position:absolute;inset:0;border-radius:44px;border:1px solid var(--line)}
+
+/* art placeholders (вместо фото залов) */
+.art{overflow:hidden;position:relative}
+.art::before{content:"";position:absolute;inset:0;background:
+conic-gradient(from 200deg at 50% -10%,transparent 0 10%,rgba(255,255,255,.22) 14%,transparent 18% 30%,rgba(255,255,255,.16) 34%,transparent 38% 100%)}
+.art::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-8%;height:38%;background:rgba(10,3,20,.55);border-radius:50% 50% 0 0/100% 100% 0 0}
+.a0{background:radial-gradient(60% 40% at 50% 28%,#ffb0d6,transparent),linear-gradient(180deg,#5b2a8a,#c0397f 60%,#2a0f45)}
+.a1{background:radial-gradient(60% 40% at 50% 28%,#b8c4ff,transparent),linear-gradient(180deg,#2b2f9a,#8a3cff 60%,#1a0a3a)}
+.ph::before{display:none}
+.ph::after{left:0;right:0;bottom:0;height:55%;border-radius:0;background:linear-gradient(180deg,transparent,rgba(10,3,20,.85))}
+.a2{background:radial-gradient(60% 40% at 50% 28%,#ffd9a0,transparent),linear-gradient(180deg,#7a2a62,#ff4f7a 60%,#2a0f2a)}
+
+/* карусель: pos-c / pos-l / pos-r */
+.show{position:relative;height:470px;max-width:1080px;margin:0 auto;overflow:hidden}
+.show .it{position:absolute;top:0;border-radius:90px;border:1px solid var(--line);cursor:pointer;transition:all .5s cubic-bezier(.3,.8,.3,1)}
+.show .pos-c{left:50%;width:330px;height:440px;transform:translateX(-50%);z-index:3}
+.show .pos-l{left:0;width:240px;height:330px;top:110px;transform:translateX(-35%);filter:blur(1.5px) brightness(.8);opacity:.85;z-index:1}
+.show .pos-r{left:100%;width:240px;height:330px;top:110px;transform:translateX(-65%);filter:blur(1.5px) brightness(.8);opacity:.85;z-index:1}
+.show .info{position:absolute;left:0;right:0;bottom:0;padding:22px 20px 34px;z-index:2;text-align:center;opacity:0;transition:opacity .4s}
+.show .pos-c .info{opacity:1}
+.show .info b{display:block;font-size:24px}
+.show .info span{color:var(--muted);font-size:14px}
+.show .info em{display:block;font-style:normal;margin-top:6px;font-size:22px;font-weight:800;color:#ffd0ea}
+.zoom{position:absolute;top:30px;right:30px;width:42px;height:42px;border-radius:50%;background:#fff;border:0;cursor:zoom-in;display:grid;place-items:center;z-index:3}
+.show .it:not(.pos-c) .zoom{display:none}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(10,3,20,.92);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:100%;max-height:100%;border-radius:20px;box-shadow:0 0 60px rgba(179,60,255,.5)}
+#lb button{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;font-size:22px;cursor:pointer}
+.all{display:flex;flex-direction:column;align-items:center;gap:12px;margin:-4px 0 28px;position:relative;z-index:4}
+.chev{width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center}
+
+/* полукруг-переключатель */
+.sw{container-type:inline-size;position:relative;width:min(760px,100%);margin:0 auto;aspect-ratio:2/1.08}
+.sw .disc{position:absolute;left:0;right:0;bottom:0;height:92.6%;border-radius:999px 999px 0 0;background:linear-gradient(180deg,#f26aa8,#e04a8f);overflow:hidden}
+.sw .disc::before{content:"";position:absolute;left:14%;right:14%;bottom:0;height:72%;border-radius:999px 999px 0 0;background:#2a2036;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.sw .disc::after{content:"";position:absolute;left:30%;right:30%;bottom:0;height:46%;border-radius:999px 999px 0 0;background:#13091f}
+.sw .ring{position:absolute;left:-4%;right:-4%;bottom:0;height:100%;border:1px solid rgba(80,110,255,.8);border-bottom:0;border-radius:999px 999px 0 0;pointer-events:none}
+.sw .it{position:absolute;border-radius:7cqw;border:1px solid rgba(255,255,255,.35);cursor:pointer;transition:all .5s cubic-bezier(.3,.8,.3,1);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.sw .pos-c{left:50%;top:0;width:30cqw;height:42cqw;transform:translateX(-50%);z-index:3}
+.sw .pos-c .lbl{display:none}
+.sw .pos-l{left:6cqw;top:30cqw;width:24cqw;height:30cqw;transform:rotate(-38deg);opacity:.8;z-index:2;filter:brightness(.85)}
+.sw .pos-r{left:70cqw;top:30cqw;width:24cqw;height:30cqw;transform:rotate(38deg);opacity:.8;z-index:2;filter:brightness(.85)}
+.sw .lbl{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-weight:700;font-size:3.2cqw;text-shadow:0 2px 8px rgba(0,0,0,.6);z-index:2}
+.sw .badge{position:absolute;left:50%;bottom:-7cqw;width:14cqw;height:14cqw;transform:translateX(-50%);z-index:4;filter:drop-shadow(0 0 10px rgba(255,79,168,.85));animation:spin 14s linear infinite}
+@keyframes spin{to{transform:translateX(-50%) rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.sw .badge{animation:none}}
+.swwrap{padding-bottom:7cqw}
+.pick{text-align:center;margin:44px 0 0}
+.pick h3{font-size:26px}
+.pick p{color:var(--muted);margin:4px 0 18px}
+
+section{padding:64px 0}
+h2{font-size:clamp(26px,5vw,38px);margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:28px}
+.promo{border:1px solid var(--line);border-radius:28px;padding:30px;background:linear-gradient(135deg,rgba(138,60,255,.22),rgba(255,79,168,.14));backdrop-filter:blur(6px)}
+.promo h3{color:var(--gold);font-size:26px;margin-bottom:6px}
+.promo p{color:var(--muted)}
+.cols{display:grid;gap:36px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+ol.steps{padding-left:20px;display:grid;gap:10px;color:var(--muted)}
+ol.steps b{color:var(--text)}
+.note{margin-top:20px;padding:14px 16px;border-left:3px solid var(--pink);background:rgba(255,255,255,.05);border-radius:10px;font-size:14px;color:var(--muted)}
+form{display:grid;gap:12px}
+label{font-size:13px;color:var(--muted);display:grid;gap:4px}
+input,select{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:14px;color:var(--text);padding:12px 14px;font:inherit}
+select option{background:#1b0f2b}
+input:focus,select:focus{outline:2px solid var(--pink)}
+.two{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+#sum{display:none;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:16px;padding:16px;font-size:15px}
+#sum b{color:#ffd0ea}
+#sum .gift{color:var(--gold)}
+.contact{display:grid;gap:8px;font-size:18px}
+.contact a{color:#ffd0ea}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media(max-width:760px){
+.links,.call{display:none}
+.burger{display:block}
+.pill{padding-right:16px}
+.links.open{display:flex;position:absolute;top:72px;left:16px;right:16px;flex-direction:column;align-items:stretch;padding:12px;border:1px solid var(--line);border-radius:24px;background:rgba(26,10,46,.96)}
+.links.open a{padding:12px 16px}
+.hero{grid-template-columns:1fr;padding-top:40px}
+.hero-img{order:-1;width:min(70%,260px)}
+.show{height:400px}
+.show .pos-c{width:260px;height:370px}
+.show .pos-l,.show .pos-r{width:170px;height:250px;top:100px}
+section{padding:48px 0}
+}
+.hero-img .ph,.show .ph,.sw .ph{background-size:cover;background-position:50% 60%}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="dg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#3a1068"/><stop offset="1" stop-color="#150726"/></radialGradient>
+<symbol id="disc" viewBox="0 0 100 100">
+<circle cx="50" cy="50" r="46" fill="url(#dg)" stroke="#ff4fa8" stroke-width="3"/>
+<circle cx="50" cy="50" r="36" fill="none" stroke="#b33cff" stroke-width="1.6" opacity=".9"/>
+<circle cx="50" cy="50" r="27" fill="none" stroke="#ff4fa8" stroke-width="1.2" opacity=".7"/>
+<circle cx="50" cy="50" r="18" fill="none" stroke="#b33cff" stroke-width="1" opacity=".7"/>
+<path d="M18 36 A36 36 0 0 1 42 15" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".75"/>
+<path d="M82 64 A36 36 0 0 1 58 85" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>
+<circle cx="50" cy="50" r="7" fill="#12061f" stroke="#ff4fa8" stroke-width="2"/>
+</symbol></defs></svg>
+<div class="demo">Демо-сайт на основе страницы заведения в Instagram. Форма не отправляет заявки.</div>
+
+<div class="nav"><div class="pill">
+<a class="logo" href="#top" aria-label="Эйфория"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#disc"/></svg></a>
+<div class="links" id="links">
+<a href="#top">Главная</a><a href="#halls">Залы</a><a href="#promo">Акция</a><a href="#menu">Меню</a><a class="on" href="#book">Бронь</a><a href="#contacts">Контакты</a>
+</div>
+<a class="call" href="tel:+79233889090">8-923-388-90-90</a>
+<button class="burger" id="burger" aria-label="Меню"><i></i></button>
+</div></div>
+
+<main id="top">
+<div class="wrap hero">
+<div>
+<div class="kicker">Кызыл · Почасовая аренда залов</div>
+<h1><span class="w">Караоке</span><br><span class="p">Эйфория</span><span class="ar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12061f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10M17 8v9H8"/></svg></span></h1>
+<p>Три зала на 15, 20 и 25 человек. Приходите компанией, а меню под ключ мы соберём заранее. При брони 4 часов пятый час в подарок.</p>
+<a class="btn" href="#book">Забронировать<span class="c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12061f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></a>
+</div>
+<div class="hero-img"><div class="art ph a2" role="img" aria-label="Большой зал" style="position:absolute;inset:0;border-radius:44px;border:1px solid var(--line);background-image:url(img/hall-large.jpg)"></div></div>
+</div>
+
+<div id="halls">
+<div class="show" id="show"></div>
+<div class="all">
+<a class="btn plain" href="#switch">Все залы</a>
+<span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#12061f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></span>
+</div>
+</div>
+
+<section style="padding-top:24px" id="switch"><div class="wrap">
+<div class="swwrap"><div class="sw" id="sw"><div class="disc"></div><div class="ring"></div><span class="badge"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#disc"/></svg></span></div></div>
+<div class="pick">
+<h3 id="pName"></h3>
+<p id="pInfo"></p>
+<a class="btn solid" href="#book" id="pBook">Забронировать этот зал<span class="c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12061f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></a>
+</div>
+</div></section>
+
+<section id="promo"><div class="wrap">
+<div class="promo">
+<h3>Акция</h3>
+<p>При бронировании 4 часов пятый час дарим в подарок.</p>
+<p>При продлении на месте акция не распространяется.</p>
+</div>
+</div></section>
+
+<section id="menu" style="padding-top:0"><div class="wrap">
+<h2>Меню под ключ</h2>
+<p class="sub">Заказываете заранее, к вашему приходу стол накрыт: подходит для дней рождения и корпоративов. Состав и стоимость уточняйте у администратора по телефону.</p>
+<a class="btn" href="tel:+79233889090">8-923-388-90-90<span class="c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12061f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></a>
+</div></section>
+
+<section id="book" style="background:rgba(0,0,0,.22)"><div class="wrap cols">
+<div>
+<h2>Условия бронирования</h2><p class="sub">Чтобы забронировать, сообщите:</p>
+<ol class="steps">
+<li><b>Зал:</b> большой, средний или малый</li>
+<li><b>Дату</b> и точное время</li>
+<li><b>Номер телефона</b> и имя, на кого бронировать</li>
+</ol>
+<div class="note"><b style="color:var(--text)">Бронь по предоплате: 50% от стоимости.</b><br>
+Если залог не внесён, администрация вправе снять бронь без предупреждения.</div>
+</div>
+<div>
+<h2>Рассчитать</h2><p class="sub">Стоимость и предоплата</p>
+<form id="f">
+<label>Имя<input name="name" required minlength="2" placeholder="На кого бронировать"></label>
+<label>Телефон<input name="phone" type="tel" required pattern="[0-9+()\s\-]{10,}" placeholder="8 900 000-00-00"></label>
+<div class="two">
+<label>Дата<input name="date" type="date" required></label>
+<label>Время начала<input name="time" type="time" required value="19:00"></label>
+</div>
+<div class="two">
+<label>Зал<select name="room" id="room"></select></label>
+<label>Часов<input name="hours" id="hours" type="number" min="1" max="12" value="3" required></label>
+</div>
+<button class="btn solid plain" type="submit" style="justify-self:start">Рассчитать стоимость</button>
+<div id="sum" role="status"></div>
+</form>
+</div>
+</div></section>
+
+<section id="contacts"><div class="wrap">
+<h2>Контакты</h2><p class="sub">Бронь и вопросы по телефону</p>
+<div class="contact">
+<a href="tel:+79233889090">8-923-388-90-90</a>
+<div>г. Кызыл, ул. Кечил-оола, 7В</div>
+<a href="https://www.instagram.com/euphoria_karaoke_kzl" rel="noopener">Instagram: @euphoria_karaoke_kzl</a>
+</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+<div><b style="color:var(--text)">Караоке Эйфория | Кызыл</b></div>
+<div>Демо-сайт</div>
+</div></footer>
+
+<script>
+var halls=[
+ {name:'Малый зал',cap:15,price:2000,art:'a0',img:'img/hall-small.jpg'},
+ {name:'Средний зал',cap:20,price:2500,art:'a1',img:'img/hall-medium.jpg'},
+ {name:'Большой зал',cap:25,price:3000,art:'a2',img:'img/hall-large.jpg'}
+];
+var idx=1;
+var rub=function(n){return n.toLocaleString('ru-RU')+' ₽'};
+var ZOOM='<button type="button" class="zoom" aria-label="Увеличить фото"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12061f" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></button>';
+
+function build(){
+  var show=document.getElementById('show'),sw=document.getElementById('sw'),room=document.getElementById('room');
+  halls.forEach(function(h,i){
+    var a=document.createElement('div');a.className='it art '+h.art;a.dataset.i=i;if(h.img){a.classList.add('ph');a.style.backgroundImage='url('+h.img+')';}
+    a.innerHTML=ZOOM+'<div class="info"><b>'+h.name+'</b><span>до '+h.cap+' человек</span><em>'+rub(h.price)+' / час</em></div>';
+    show.appendChild(a);
+    var b=document.createElement('div');b.className='it art '+h.art;b.dataset.i=i;if(h.img){b.classList.add('ph');b.style.backgroundImage='url('+h.img+')';}b.setAttribute('role','button');b.setAttribute('aria-label',h.name);
+    b.innerHTML='<div class="lbl">'+h.name.split(' ')[0]+'</div>';
+    sw.appendChild(b);
+    var o=document.createElement('option');o.value=i;o.textContent=h.name+' (до '+h.cap+')';room.appendChild(o);
+  });
+}
+function render(){
+  var n=halls.length;
+  document.querySelectorAll('.it').forEach(function(el){
+    var i=+el.dataset.i;
+    el.classList.remove('pos-c','pos-l','pos-r');
+    el.classList.add(i===idx?'pos-c':(i===(idx+1)%n?'pos-r':'pos-l'));
+  });
+  var h=halls[idx];
+  document.getElementById('pName').textContent=h.name;
+  document.getElementById('pInfo').textContent='до '+h.cap+' человек · '+rub(h.price)+' в час';
+  document.getElementById('room').value=idx;
+}
+build();render();
+document.querySelectorAll('.it').forEach(function(el){
+  el.addEventListener('click',function(){var i=+el.dataset.i;if(i!==idx){idx=i;render();}});
+});
+document.getElementById('room').addEventListener('change',function(e){idx=+e.target.value;render();});
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('links').classList.toggle('open');});
+document.getElementById('links').addEventListener('click',function(){this.classList.remove('open');});
+
+var d=document.querySelector('input[type=date]');
+d.min=d.value=new Date().toISOString().slice(0,10);
+document.getElementById('f').addEventListener('submit',function(e){
+  e.preventDefault();
+  var price=halls[+document.getElementById('room').value].price;
+  var hours=+document.getElementById('hours').value;
+  var total=price*hours;
+  var gift=hours===4?'<div class="gift">Акция: 5-й час в подарок, всего 5 часов.</div>':'';
+  var s=document.getElementById('sum');
+  s.innerHTML='Стоимость: <b>'+rub(total)+'</b><br>Предоплата 50%: <b>'+rub(total/2)+'</b>'+gift+
+    '<br>Для брони позвоните: <a href="tel:+79233889090"><b>8-923-388-90-90</b></a>';
+  s.style.display='block';
+});
+var lb=document.createElement('div');lb.id='lb';lb.innerHTML='<button type="button" aria-label="Закрыть">×</button><img alt="">';document.body.appendChild(lb);
+function closeLb(){lb.classList.remove('on');}
+lb.addEventListener('click',closeLb);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb();});
+document.querySelectorAll('.zoom').forEach(function(z){
+  z.addEventListener('click',function(e){
+    e.stopPropagation();
+    var h=halls[+z.parentNode.dataset.i];
+    var im=lb.querySelector('img');im.src=h.img;im.alt=h.name;lb.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>
